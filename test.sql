@@ -45,3 +45,19 @@ from CovidDeaths
 where continent is not null
 group by continent
 order by 2 desc
+
+-- Tỷ lệ chết so với dân số thế giới
+select sum(new_cases) as total_cases,sum(new_deaths) as total_deaths,
+sum(new_deaths)*1.0/SUM(new_cases) *100 as DeathPercencage
+from CovidDeaths
+where continent is not null
+order by 1,2
+
+-- So sánh dân số thế giới với vaccine hiện có
+select d.continent,d.location,d.population,v.new_vaccinations 
+from CovidDeaths d
+inner join CovidVaccinations v on d.location = v.location
+and d.date = v.date
+where d.continent is not null
+and new_vaccinations is not null
+order by 1,2
